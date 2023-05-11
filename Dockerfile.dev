@@ -1,0 +1,16 @@
+# need a specific version of Node to avoide bugs
+FROM node:16-alpine
+
+# setup working dir
+WORKDIR '/app'
+
+# copy the package,json file to our current workdir
+COPY package.json .
+
+RUN npm install
+
+# after we install our dependencies we copy everything else
+COPY . .
+
+# startup our project
+CMD ["npm", "run", "start"]
