@@ -1,25 +1,8 @@
 version: '3'
 services:
-  # any name
   web:
-    # docker file we're going to use
     build:
-      # where we want our files to come from
-      # if we had nested our react app folder we would do reactprojectname instead of .
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    volumes:
-      # do not try to map a folder outside the container
-      - /app/node_modules
-      # we want to map our pwd to the app folder inside the container
-      - .:/app
-  tests:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules
-      - .:/app
-    command: ["npm", "run", "test"]
+      - '80:80'
