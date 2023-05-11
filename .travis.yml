@@ -1,0 +1,26 @@
+sudo: required # anytime we use docker we have to have superuser permissions 
+# we need docker cli, travis will install a copy of docker
+services:
+  - docker
+
+# execute commands before test are ran
+# we want to build our docker image before the test run
+# this command will build our image using -f Dockerfile.dev and build context is . (use current dir figuring out what to do)
+# since after that command we get an ID that we copied and pasted
+# so lets tag this image and refer to it as name
+# we could might as well tag it as -t MYIMAGE , since this is only used inside Travis
+before_install:
+  - docker build -t arielbenavi/docker-react -f Dockerfile.dev .
+
+# how to deploy on AWS
+# the script section contains commands to actual run our test suite.
+# or to ran when our test is executed
+# if Travis gets a status code other than 0 in here, itll assume the code failed
+# docker run <image id> npm run test
+
+# the default behaviour of npm test is to run once and present us a menu, never exists
+# in Travis CI it will wait forever, so to work around it and exit after the first test,
+# we need to add -- --coverage
+# -e CI-true variable and ommited coverage flag
+script:
+  - docker run -e CI=true arielbenavi/docker-react npm run test
