@@ -24,3 +24,25 @@ before_install:
 # -e CI-true variable and ommited coverage flag
 script:
   - docker run -e CI=true arielbenavi/docker-react npm run test
+
+# deployment: provider - Travis can handle a lot of providers
+# region: look at aws Ebs-frontend-env.eba-yi5pdwkx.eu-north-1.elasticbeanstalk.com 
+# app: the first word after the all applications on aws
+# env is the environment name
+# bucket name: Travis is going to zip up our repo and copy it to S3 (hard drive on aws)
+# we can view our bucket name when going to services -> S3
+# since its been generated when we created our ebs (we can tell also for the region)
+# first time we create the bucket our project folder wont be there,
+# only when we first deploy, so our path should just be equal to our app name
+# we want to make sure it only reacts to changes on our master branch, not feature
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-north-1"
+  app: "ebs-frontend"
+  env: "Ebs-frontend-env"
+  bucket_name: "elasticbeanstalk-eu-north-1-463041668056"
+  bucket_path: "ebs-frontend"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: "$AWS_SECRET_KEY"
