@@ -19,6 +19,9 @@ RUN npm run build
 
 # we dont have to tag, since we put a new FROM this is a new block
 FROM nginx
+
+# port mapping
+EXPOSE 80
 # this is saying i want to copy something from that other phase
 # on the nginx page on docker hub, it says the config to serve html content is this folder
                     # <dir to copy> <dest dir>
